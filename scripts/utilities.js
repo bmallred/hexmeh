@@ -25,7 +25,7 @@ function padLeft(number, length) {
     }
 
     return str;
-};
+}
 
 function binaryToHex(binary) {
     var character = null;
@@ -41,7 +41,7 @@ function binaryToHex(binary) {
     }
 
     return character;
-};
+}
 
 function generateBinary(length) {
     var binary = '';
@@ -57,4 +57,4 @@ function generateBinary(length) {
     }
 
     return binary;
-};
+}

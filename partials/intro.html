@@ -1,7 +1,23 @@
-<h2>Welcome!</h2>
-
-<div>
+<div class="center">
     <label for="generated-binary">Generated binary</label>
-    <input type="text" id="generated-binary" ng-model="binary" />
+    <select name="generated-length" ng-model="binaryLength">
+        <option ng:repeat="length in allowedLengths">{{length}}</option>
+    </select>
+    <label for="generated-length">bits long</label><br />
+    
+    <input type="text" id="generated-binary" ng-model="binary" disabled="disabled" class="center" style="width: 80%;" /><br />
+    
     <button class="button blue" ng-click="generate()">Generate Binary</button>
+    <button class="button red" ng-click="solve()">Translate to Hex</button>
+</div>
+
+<div class="center" ng-show="displayResults()">
+    <div ng:repeat="part in parts" style="margin: 2em;" fadey="1000">
+        <span class="part" fadey="1500">{{part.binary}}</span>
+        <span fadey="1800">is now</span>
+        <span class="part" fadey="2100">{{part.hex}}</span>
+    </div>
+    
+    <label for="solved-hex">Hex</label><br />
+    <input type="text" id="solved-hex" ng-model="hex" disabled="disabled" class="center" style="width: 80%;" /><br />
 </div>
