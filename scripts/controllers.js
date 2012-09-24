@@ -41,3 +41,58 @@ function MainController($scope, $routeParams) {
       return false;
   };
 }
+
+function DumpController($scope, $routeParams) {
+    $scope.columns = 16;
+    $scope.fileApi = false;
+    $scope.files = [];
+    
+    $scope.showFiles = function () {
+        return $scope.files;
+    };
+    
+    // Check for the various File API support.
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        // Great success! All the File APIs are supported.
+        $("#drop-zone").bind("dragover", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            e.originalEvent.dataTransfer.dropEffect = 'copy';
+        });
+        
+        $("#drop-zone").bind("drop", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            var files = e.originalEvent.dataTransfer.files;
+            
+            for (var i = 0, f; f = files[i]; i++) {
+                /*var reader = new FileReader();
+                
+                // Closure to capture the file information.
+                reader.onload = (function(theFile) {
+                    return function(e) {
+                        var bytes = new Uint8Array(e.target.result);
+                        var c = 0;
+                        for (var i = 0; i < bytes.length; i++) {
+                            if (c++ >= 16) {
+                                $("#tabFile1").append("<br>");
+                                c = 0;
+                            }
+                            
+                            $("#tabFile1").append(bytes[i].toString(16) + " ");
+                        }
+                };
+                })(f);
+                
+                // Read in the image file as a data URL.
+                reader.readAsArrayBuffer(f);*/
+          
+                $scope.files.push(f);
+            }
+        });
+    } else {
+        $scope.fileApi = false;
+        alert('The File APIs are not fully supported in this browser.');
+    }
+}
