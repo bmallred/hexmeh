@@ -3,26 +3,18 @@
 	{
 		"selected_items":
 		[
+			[
+				"binary",
+				"binaryLength"
+			],
+			[
+				"generate",
+				"generateBinary"
+			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "index.html",
-			"settings":
-			{
-				"buffer_size": 1070,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "scripts/controllers.js",
-			"settings":
-			{
-				"buffer_size": 4893,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -48,6 +40,16 @@
 	},
 	"file_history":
 	[
+		"/home/bryan/Projects/hexmeh/scripts/utilities.js",
+		"/home/bryan/Projects/hexmeh/styles/hexmeh.css",
+		"/home/bryan/Projects/hexmeh/index.html",
+		"/home/bryan/Projects/hexmeh/scripts/controllers.js",
+		"/home/bryan/Projects/hexmeh/partials/intro.html",
+		"/home/bryan/Projects/hexmeh/scripts/services.js",
+		"/home/bryan/Projects/hexmeh/crossdomain.xml",
+		"/home/bryan/Projects/hexmeh/scripts/app.js",
+		"/home/bryan/Projects/hexmeh/.gitignore",
+		"/home/bryan/Projects/hexmeh/README.md",
 		"/home/bryan/Projects/whistle/scripts/app.js",
 		"/home/bryan/Projects/whistle/scripts/utilities.js",
 		"/home/bryan/Projects/whistle/index.html",
@@ -55,7 +57,7 @@
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -69,6 +71,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"whistler"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -86,65 +89,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "index.html",
-					"settings":
-					{
-						"buffer_size": 1070,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								243,
-								243
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "scripts/controllers.js",
-					"settings":
-					{
-						"buffer_size": 4893,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4893,
-								4893
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -154,7 +100,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 33.0
 	},
 	"layout":
 	{
@@ -199,13 +145,13 @@
 		[
 			[
 				"",
-				"/home/bryan/Projects/azucar-fitness/azucar-fitness.sublime-project"
+				"/home/bryan/Projects/mcnaughty/mcnaughty.sublime-project"
 			]
 		],
 		"width": 380.0
 	},
 	"show_minimap": true,
-	"show_open_files": true,
+	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 243.0,

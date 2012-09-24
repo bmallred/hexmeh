@@ -1,5 +1,9 @@
-<div id="drop-zone" style="height: 5em; width: 80%; border: 1px dashed #000; background-color: #fff;">Drop a file here!</div>
+<!--<div id="drop-zone" style="height: 5em; width: 80%; border: 1px dashed #000; background-color: #fff;">Drop a file here!</div>-->
 
 <tabs>
-    <pane ng:repeat="file in files" title="{{file.name}}"></pane>
+    <pane ng-repeat="file in files" title="{{file.name}}">
+    	<div class="lineNumber" style="display: inline-block;">Line Numbers</div>
+    	<div class="lineHex" style="display: inline-block;">Line Hex</div>
+    	<div class="lineCharacters" style="display: inline-block;">Line Characters</div>
+    </pane>
 </tabs>
