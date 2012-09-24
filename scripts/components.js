@@ -22,7 +22,7 @@ angular.module('hexmeh', [])
                 };
             }
         };
-    });
+    })
     .directive('tabs', function () {
         return {
             restrict: 'E',

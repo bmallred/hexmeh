@@ -1,9 +1,20 @@
-<!--<div id="drop-zone" style="height: 5em; width: 80%; border: 1px dashed #000; background-color: #fff;">Drop a file here!</div>-->
+<div id="drop-zone"><span>{{instructions}}</span></div>
 
-<tabs>
-    <pane ng-repeat="file in files" title="{{file.name}}">
-    	<div class="lineNumber" style="display: inline-block;">Line Numbers</div>
-    	<div class="lineHex" style="display: inline-block;">Line Hex</div>
-    	<div class="lineCharacters" style="display: inline-block;">Line Characters</div>
-    </pane>
-</tabs>
+<div style="text-align: center; padding: 1em;">
+    <label>Columns</label>
+    <select ng-model="columns">
+        <option>16</option>
+        <option>32</option>
+        <option>64</option>
+        <option>128</option>
+        <option>256</option>
+    </select>
+    <label>Hex Uppercase</label>
+    <input type="checkbox" ng-model="uppercaseHex" />
+</div>
+
+<div id="terminal" class="mono">
+    <div id="lineNumbers"></div>
+    <div id="lineHex"></div>
+    <div id="lineCharacters"></div>
+</div>

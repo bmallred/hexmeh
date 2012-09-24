@@ -45,27 +45,29 @@ function MainController($scope, $routeParams) {
 function DumpController($scope, $routeParams) {
   $scope.columns = 16;
   $scope.fileApi = false;
-  $scope.files = [];
-  
-  $scope.showFiles = function () {
-    return $scope.files;
-  };
+  $scope.instructions = "Drop a file here!";
+  $scope.uppercaseHex = false;
   
   // Check for the various File API support.
   if (window.File && window.FileReader && window.FileList && window.Blob) {
     // Great success! All the File APIs are supported.
-    $(window).bind("dragover", function (e) {
+    $("#drop-zone").bind("dragover", function (e) {
       e.stopPropagation();
       e.preventDefault();
       e.originalEvent.dataTransfer.dropEffect = 'copy';
     });
     
-    $(window).bind("drop", function(e) {
+    $("#drop-zone").bind("drop", function(e) {
       e.stopPropagation();
       e.preventDefault();
       
+      // Remove previous output.
+      $("#lineNumbers, #lineHex, #lineCharacters").empty();
+      
+      // Retrieve the files.
       var files = e.originalEvent.dataTransfer.files;
       
+      // Iterate though each file.
       for (var i = 0, f; f = files[i]; i++) {
         var reader = new FileReader();
         
@@ -73,21 +75,30 @@ function DumpController($scope, $routeParams) {
         reader.onload = (function(theFile) {
           return function(e) {
             var bytes = new Uint8Array(e.target.result);
-            
-            $scope.files.push({
-              "name": theFile.name,
-              "bytes": bytes
-            });
 
-            /*var c = 0;
             for (var i = 0; i < bytes.length; i++) {
-              if (c++ >= 16) {
-                $("#tabFile1").append("<br>");
-                c = 0;
+              if (i % $scope.columns === 0) {
+                // Add a break line.
+                $("#lineNumbers, #lineHex, #lineCharacters").append("<br>");
+                
+                // Get the line number.
+                var lineNumber = padLeft(i.toString(16), 6);
+                if ($scope.uppercaseHex) {
+                  lineNumber = lineNumber.toUpperCase();
+                }
+                $("#lineNumbers").append("<span class='number'>" + lineNumber + "</span><span class='symbol'>:</span>");
               }
               
-              $("#tabFile1").append(bytes[i].toString(16) + " ");
-            }*/
+              // Get the hex string.
+              var hexString = padLeft(bytes[i].toString(16), 2);
+              if ($scope.uppercaseHex) {
+                  hexString = hexString.toUpperCase();
+              }
+              
+              // Output the remaining lines.
+              $("#lineHex").append("<span class='hex'>" + hexString + "</span>&nbsp;");
+              $("#lineCharacters").append("<span class='char'>" + String.fromCharCode(bytes[i]) + "</span>");
+            }
           };
         })(f);
         
@@ -97,6 +108,7 @@ function DumpController($scope, $routeParams) {
     });
   } else {
     $scope.fileApi = false;
+    $scope.instructions = "Sorry, your browser needs to go to an old folks home.";
     alert('The File APIs are not fully supported in this browser.');
   }
 }

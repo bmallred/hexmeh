@@ -79,6 +79,66 @@ div[role="main"] {
     background-color: #eee;
 }
 
+.mono {
+    font-family: Fixed, monospace;
+}
+
+#drop-zone {
+    /*width: 80%;*/
+    border: 1px dashed #000; 
+    background-color: #fff; 
+    margin-left: auto; 
+    margin-right: auto; 
+    text-align: center; 
+    padding-top: 2em; 
+    padding-bottom: 2em;
+}
+
+#lineNumbers {
+    display: inline-block; 
+    padding-right: 1em;
+    text-align: left;
+    vertical-align: text-top;
+}
+
+#lineHex {
+    display: inline-block; 
+    padding-right: 1em;
+    text-align: left;
+    vertical-align: text-top;
+}
+
+#lineCharacters {
+    display: inline-block;
+    text-align: left;
+    vertical-align: text-top;
+}
+
+#terminal {
+    text-align: center; 
+    min-height: 20em;
+    background-color: #000;
+    color: #00A300;
+    border-radius: 24px;
+    text-shadow: 1px 1px #333;
+}
+
+.number {
+    color: #6B6B6B;
+}
+
+.symbol {
+    color: #A30000;
+}
+
+.hex {
+
+}
+
+.char {
+    color: #A35200;
+}
+
 /**
  * Buttons
  */
