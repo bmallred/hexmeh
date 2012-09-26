@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"file",
+				"file"
+			],
+			[
+				"read",
+				"readBlob"
+			],
+			[
+				"otp",
+				"outputLine"
+			],
+			[
 				"binary",
 				"binaryLength"
 			],
@@ -15,6 +27,41 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "partials/dump.html",
+			"settings":
+			{
+				"buffer_size": 592,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 1526,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "'use strict';\n\nfunction MainController($scope, $routeParams) {\n  $scope.allowedLengths = [4, 8, 16, 32, 64, 128, 256];\n  $scope.binaryLength = 64;\n  $scope.binary = generateBinary($scope.binaryLength);\n  $scope.parts = [];\n  $scope.hex = \"\";\n  \n  $scope.displayResults = function () {\n    return $scope.hex.length > 0;\n  };\n  \n  $scope.generate = function () {\n    $scope.binary = generateBinary($scope.binaryLength);\n    $scope.parts = [];\n    $scope.hex = \"\";\n    \n    return false;\n  };\n  \n  $scope.solve = function () {\n    $scope.parts = [];\n    $scope.hex = \"\";\n    \n    var original = $scope.binary;\n    \n    while (original.length > 0) {\n      // Find the 16 bytes we need.\n      var part = original.substr(-4);\n      var character = binaryToHex(part);\n      \n      // Divvy this stuff up.\n      $scope.parts.push({ \"binary\": part, \"hex\": character });\n      $scope.hex = character + $scope.hex;\n      \n      // Remove the last four.\n      original = original.substr(0, original.length - 4);\n    }\n    \n    return false;\n  };\n}\n\nfunction DumpController($scope, $routeParams) {\n  $scope.columns = 16;\n  $scope.fileApi = false;\n  $scope.instructions = \"Drop a file here!\";\n  $scope.uppercaseHex = false;\n  $scope.file = null;\n  $scope.lastLine = 0;\n  \n  $scope.isProcessing = function () {\n\n  };\n\n  function outputLine(bytes) {\n    // Add a break line.\n    $(\"#lineNumbers, #lineHex, #lineCharacters\").append(\"<br>\");\n    \n    // Get the line number.\n    var lineNumber = padLeft($scope.lastLine.toString(16), 6);\n    if ($scope.uppercaseHex) {\n      lineNumber = lineNumber.toUpperCase();\n    }\n    $(\"#lineNumbers\").append(lineNumber + \"<span class='symbol'>:</span>\");\n    \n    for (var i = 0; i < bytes.length; i++) {\n      // Get the hex string.\n      var hexString = padLeft(bytes[i].toString(16), 2);\n      if ($scope.uppercaseHex) {\n          hexString = hexString.toUpperCase();\n      }\n      \n      // Output the remaining lines.\n      $(\"#lineHex\").append(hexString + \"&nbsp;\");\n      $(\"#lineCharacters\").append(String.fromCharCode(bytes[i]));\n    }\n\n    // Increment to next line.\n    $scope.lastLine++;\n  }\n\n  function readBlob(start, stop) {\n    if (start < $scope.file.size) {\n      var reader = new FileReader();\n      \n      // Closure to capture the file information.\n      reader.onload = function(evt) {\n        var bytes = new Uint8Array(evt.target.result);\n        outputLine(bytes);\n        readBlob(stop, stop + $scope.columns);\n      }\n\n      var blob = $scope.file.webkitSlice(start, stop);\n      reader.readAsArrayBuffer(blob);\n    }\n  }\n  \n  // Check for the various File API support.\n  if (window.File && window.FileReader && window.FileList && window.Blob) {\n    // Great success! All the File APIs are supported.\n    $(\"#drop-zone\").bind(\"dragover\", function (e) {\n      e.stopPropagation();\n      e.preventDefault();\n      e.originalEvent.dataTransfer.dropEffect = 'copy';\n    });\n    \n    $(\"#drop-zone\").bind(\"drop\", function(e) {\n      e.stopPropagation();\n      e.preventDefault();\n      \n      // Remove previous output.\n      $(\"#lineNumbers, #lineHex, #lineCharacters\").empty();\n      $scope.lastLine = 0;\n      $scope.file = null;\n\n      //$(\"#drop-zone\").append($(\"<div id='progress_bar'><div class='percent'>0%</div></div>\"));\n      //var progress = $(\".percent\");\n      \n      // Retrieve the files.\n      var files = e.originalEvent.dataTransfer.files;\n      if (files) {\n        $scope.file = files[0];\n        readBlob(0, $scope.columns);\n      }\n    });\n  } \n  else {\n    $scope.fileApi = false;\n    $scope.instructions = \"Sorry, your browser needs to go to an old folks home.\";\n    alert('The File APIs are not fully supported in this browser.');\n  }\n}",
+			"file": "scripts/controllers.js",
+			"file_size": 3704,
+			"file_write_time": 1348693725000000,
+			"settings":
+			{
+				"buffer_size": 3707,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "styles/hexmeh.css",
+			"settings":
+			{
+				"buffer_size": 10926,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -40,6 +87,8 @@
 	},
 	"file_history":
 	[
+		"/home/bryan/Projects/hexmeh/scripts/app.js",
+		"/home/bryan/Projects/hexmeh/scripts/components.js",
 		"/home/bryan/Projects/hexmeh/scripts/utilities.js",
 		"/home/bryan/Projects/hexmeh/styles/hexmeh.css",
 		"/home/bryan/Projects/hexmeh/index.html",
@@ -47,7 +96,6 @@
 		"/home/bryan/Projects/hexmeh/partials/intro.html",
 		"/home/bryan/Projects/hexmeh/scripts/services.js",
 		"/home/bryan/Projects/hexmeh/crossdomain.xml",
-		"/home/bryan/Projects/hexmeh/scripts/app.js",
 		"/home/bryan/Projects/hexmeh/.gitignore",
 		"/home/bryan/Projects/hexmeh/README.md",
 		"/home/bryan/Projects/whistle/scripts/app.js",
@@ -89,8 +137,119 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "partials/dump.html",
+					"settings":
+					{
+						"buffer_size": 592,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								488,
+								488
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "index.html",
+					"settings":
+					{
+						"buffer_size": 1526,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "scripts/controllers.js",
+					"settings":
+					{
+						"buffer_size": 3707,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1296,
+								1296
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 833.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "styles/hexmeh.css",
+					"settings":
+					{
+						"buffer_size": 10926,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								74,
+								74
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1734.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -145,7 +304,7 @@
 		[
 			[
 				"",
-				"/home/bryan/Projects/mcnaughty/mcnaughty.sublime-project"
+				"/home/bryan/Projects/whistle/whistle.sublime-project"
 			]
 		],
 		"width": 380.0

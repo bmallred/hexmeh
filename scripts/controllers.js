@@ -47,6 +47,65 @@ function DumpController($scope, $routeParams) {
   $scope.fileApi = false;
   $scope.instructions = "Drop a file here!";
   $scope.uppercaseHex = false;
+  $scope.file = null;
+  $scope.lastLine = 0;
+
+  function toggleSwitches() {
+    $("input, select").prop("disabled", !$("input, select").prop("disabled"));
+  }
+
+  function outputLine(bytes) {
+    // Add a break line.
+    $("#lineNumbers, #lineHex, #lineCharacters").append("<br>");
+    
+    // Get the line number.
+    var lineNumber = padLeft($scope.lastLine.toString(16), 6);
+    if ($scope.uppercaseHex) {
+      lineNumber = lineNumber.toUpperCase();
+    }
+    $("#lineNumbers").append(lineNumber + "<span class='symbol'>:</span>");
+    
+    for (var i = 0; i < bytes.length; i++) {
+      //var progress = $(".percent");
+      //var percent = ((i + (($scope.lastLine + 1) * $scope.columns)) / $scope.file.size) * 100;
+      //$(progress).text(percent + "%");
+
+      // Get the hex string.
+      var hexString = padLeft(bytes[i].toString(16), 2);
+      if ($scope.uppercaseHex) {
+          hexString = hexString.toUpperCase();
+      }
+      
+      // Output the remaining lines.
+      $("#lineHex").append(hexString + "&nbsp;");
+      $("#lineCharacters").append(String.fromCharCode(bytes[i]));
+    }
+
+    // Increment to next line.
+    $scope.lastLine++;
+  }
+
+  function readBlob(start, stop) {
+    if (start < $scope.file.size) {
+      var reader = new FileReader();
+      
+      // Closure to capture the file information.
+      reader.onload = function(evt) {
+        var bytes = new Uint8Array(evt.target.result);
+        outputLine(bytes);
+        readBlob(stop, stop + $scope.columns);
+      }
+
+      var blob = $scope.file.webkitSlice(start, stop);
+      reader.readAsArrayBuffer(blob);
+    }
+    else {
+      $scope.lastLine = 0;
+      $scope.file = null;
+      toggleSwitches();
+      $("#progress_bar").remove();
+    }
+  }
   
   // Check for the various File API support.
   if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -63,50 +122,19 @@ function DumpController($scope, $routeParams) {
       
       // Remove previous output.
       $("#lineNumbers, #lineHex, #lineCharacters").empty();
+      toggleSwitches();
+
+      //$("#drop-zone").append($("<div id='progress_bar'><div class='percent'>0%</div></div>"));
       
       // Retrieve the files.
       var files = e.originalEvent.dataTransfer.files;
-      
-      // Iterate though each file.
-      for (var i = 0, f; f = files[i]; i++) {
-        var reader = new FileReader();
-        
-        // Closure to capture the file information.
-        reader.onload = (function(theFile) {
-          return function(e) {
-            var bytes = new Uint8Array(e.target.result);
-
-            for (var i = 0; i < bytes.length; i++) {
-              if (i % $scope.columns === 0) {
-                // Add a break line.
-                $("#lineNumbers, #lineHex, #lineCharacters").append("<br>");
-                
-                // Get the line number.
-                var lineNumber = padLeft(i.toString(16), 6);
-                if ($scope.uppercaseHex) {
-                  lineNumber = lineNumber.toUpperCase();
-                }
-                $("#lineNumbers").append("<span class='number'>" + lineNumber + "</span><span class='symbol'>:</span>");
-              }
-              
-              // Get the hex string.
-              var hexString = padLeft(bytes[i].toString(16), 2);
-              if ($scope.uppercaseHex) {
-                  hexString = hexString.toUpperCase();
-              }
-              
-              // Output the remaining lines.
-              $("#lineHex").append("<span class='hex'>" + hexString + "</span>&nbsp;");
-              $("#lineCharacters").append("<span class='char'>" + String.fromCharCode(bytes[i]) + "</span>");
-            }
-          };
-        })(f);
-        
-        // Read in the image file as a data URL.
-        reader.readAsArrayBuffer(f);
+      if (files) {
+        $scope.file = files[0];
+        readBlob(0, $scope.columns);
       }
     });
-  } else {
+  } 
+  else {
     $scope.fileApi = false;
     $scope.instructions = "Sorry, your browser needs to go to an old folks home.";
     alert('The File APIs are not fully supported in this browser.');
