@@ -58,3 +58,15 @@ function generateBinary(length) {
 
     return binary;
 }
+
+function mySlice(obj, start, stop) {
+    if (obj.mozSlice) {
+        return obj.mozSlice(start, stop);
+    }
+    else if (obj.webkitSlice) {
+        return obj.webkitSlice(start, stop);
+    }
+    else {
+        return obj.slice(start, stop);
+    }
+}

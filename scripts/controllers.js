@@ -96,7 +96,7 @@ function DumpController($scope, $routeParams) {
         readBlob(stop, stop + $scope.columns);
       }
 
-      var blob = $scope.file.webkitSlice(start, stop);
+      var blob = mySlice($scope.file, start, stop);
       reader.readAsArrayBuffer(blob);
     }
     else {
